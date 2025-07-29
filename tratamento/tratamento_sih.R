@@ -9,15 +9,15 @@ con <- conectar("aws")
 
 
 # Carregar os dados do SINAN
-sih <- dbGetQuery(con, "SELECT * FROM origin |> al_sih")
+sih <- dbGetQuery(con, "SELECT * FROM original_sih")
 
 # Tabela de padronização
 namestand <- vitallinkage::namestand |> 
   bind_rows(
     data.frame(
       fonte = c("SIH","SIH", "SIH"),
-      var_names_orig = c("id_sih", "id_registro_linkage","id_unico"),
-      stanard_name = c("id_sih", "id_registro_linkage","id_unico")
+      var_names_orig = c("id_sih", "id_unico"),
+      stanard_name = c("id_sih", "id_unico")
     )
   )
 
@@ -82,6 +82,7 @@ sih2 <- sih |>
   vitallinkage::upper_case_char() |> # As colunas com texto passam a ficar com letra maiuscula
   vitallinkage::padroniza_variaveis(namestand,'SIH') |> 
   mutate(
+    id_registro_linkage = -1,
     nu_cns = str_trim(case_when(
       nu_cns == "000000000000000" ~ NA_character_,
       nu_cns == "00000000000" ~ NA_character_,

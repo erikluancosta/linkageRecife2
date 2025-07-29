@@ -94,6 +94,7 @@ sim2 <- sim |>
   vitallinkage::copia_nomes() |>
   vitallinkage::gemelar("ds_nome_pac") |> # Cria coluna de gemelar
   mutate(
+    id_registro_linkage = -1,
     recem_nasc = ifelse(
       grepl(
         "^(RN |FM |FM1 |FM2 |FMI |FMII |IFM|RECEM NASCIDO|RN NASCIDO|NATIMORTO|NATIMORTI|FETO MORTO|FETO|MORTO|NASCIDO VIVO|VIVO|NASCIDO|SEM DOC|CADAVER|NATIMORTE|RECEM|IGNORADO|RECEM NASCIDO DE )", 

@@ -36,9 +36,9 @@ namestand <- vitallinkage::namestand |>
   ) |> 
   bind_rows(
     data.frame(
-      fonte = c("SINAN_VIOL","SINAN_VIOL", "SINAN_VIOL"),
-      var_names_orig = c("id_sinan_viol", "id_registro_linkage","id_unico"),
-      stanard_name = c("id_sinan_viol", "id_registro_linkage","id_unico")
+      fonte = c("SINAN_VIOL", "SINAN_VIOL"),
+      var_names_orig = c("id_sinan_viol","id_unico"),
+      stanard_name = c("id_sinan_viol","id_unico")
     )
   )
 
@@ -106,11 +106,13 @@ sinan_viol <- sinan_viol |>
   vitallinkage::padroniza_variaveis(namestand,"SINAN_VIOL") |> 
   vitallinkage::ajuste_data(tipo_data=2) |> 
   vitallinkage::ano_sinan() |> 
-  mutate(recem_nasc = ifelse(
-    grepl("^(RN |RECEM NASCIDO|RN NASCIDO|NATIMORTO|NATIMORTI|FETO MORTO|FETO|MORTO|NASCIDO VIVO|VIVO|NASCIDO|SEM DOC|CADAVER|NATIMORTE|RECEM|IGNORADO|RECEM NASCIDO DE )", ds_nome_pac), 
-    1, 
-    NA
-  )) |> 
+  mutate(
+    id_registro_linkage = -1,
+    recem_nasc = ifelse(
+      grepl("^(RN |RECEM NASCIDO|RN NASCIDO|NATIMORTO|NATIMORTI|FETO MORTO|FETO|MORTO|NASCIDO VIVO|VIVO|NASCIDO|SEM DOC|CADAVER|NATIMORTE|RECEM|IGNORADO|RECEM NASCIDO DE )", ds_nome_pac), 
+      1, 
+      NA
+    )) |> 
   vitallinkage::copia_nomes() |> 
   # Ajusta as variáveis que contem "ds_nome" na composição
   ajuste_txt2() |> 
@@ -127,7 +129,7 @@ sinan_viol <- sinan_viol |>
   mutate(across(ends_with("_res2"), ~ ifelse(. == "", NA, .))) |> 
   mutate(across(ends_with("_res2_sound"), ~ ifelse(. == "0000", NA, .))) |> 
   # NOVAS VARIÁVEIS
-    # Raça/cor
+  # Raça/cor
   vitallinkage::ds_raca_sinan() |> 
   mutate(
     ds_raca = stringr::str_to_title(ds_raca),
@@ -136,7 +138,7 @@ sinan_viol <- sinan_viol |>
       ds_raca == "Indigena" ~ "Indígena",
       TRUE ~ ds_raca)
   ) |> 
-    # Sexo
+  # Sexo
   vitallinkage::corrige_sg_sexo() |> # Corrige os registros de sexo Ignorado
   vitallinkage::nu_idade_anos_sinan() |>  # Discutir a ideia de calcular com a idade antes do código
   select(id_sinan_viol, id_registro_linkage, id_unico, everything()) |>

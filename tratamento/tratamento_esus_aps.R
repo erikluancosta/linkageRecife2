@@ -99,13 +99,15 @@ esus_aps <- esus_aps |>
   vitallinkage::padroniza_variaveis(namestand2,'ESUS_APS') |> 
   vitallinkage::upper_case_char() |>
   vitallinkage::ajuste_data(tipo_data=2) |> 
-  mutate(nu_cns = as.character(nu_cns),
-         across(starts_with("ds"), ~ ifelse(. == "", NA, .)),
-         recem_nasc = ifelse(
-           grepl("^(RN |RECEM NASCIDO|RN NASCIDO|NATIMORTO|NATIMORTI|FETO MORTO|FETO|MORTO|NASCIDO VIVO|VIVO|NASCIDO|SEM DOC|CADAVER|NATIMORTE|RECEM|IGNORADO|RECEM NASCIDO DE )", ds_nome_pac), 
-           1, 
-           NA
-         )) |> 
+  mutate(
+    id_registro_linkage = -1,
+    nu_cns = as.character(nu_cns),
+    across(starts_with("ds"), ~ ifelse(. == "", NA, .)),
+    recem_nasc = ifelse(
+      grepl("^(RN |RECEM NASCIDO|RN NASCIDO|NATIMORTO|NATIMORTI|FETO MORTO|FETO|MORTO|NASCIDO VIVO|VIVO|NASCIDO|SEM DOC|CADAVER|NATIMORTE|RECEM|IGNORADO|RECEM NASCIDO DE )", ds_nome_pac), 
+      1, 
+      NA
+    )) |> 
   ajuste_txt2() |> 
   vitallinkage::soundex_linkage('ds_nome_pac') |> 
   vitallinkage::soundex_linkage('ds_nome_mae') |> 

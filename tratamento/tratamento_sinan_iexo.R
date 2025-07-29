@@ -133,7 +133,9 @@ df_clean <- df_clean |>
   vitallinkage::padroniza_variaveis(names_sinan_iexo,nome_base = "SINAN_IEXO") |> 
   vitallinkage::copia_nomes() |> 
   vitallinkage::ano_sinan() |> 
-  mutate(recem_nasc = ifelse(
+  mutate(
+    id_registro_linkage = -1,
+    recem_nasc = ifelse(
     grepl("^(RN |RECEM NASCIDO|RN NASCIDO|NATIMORTO|NATIMORTI|FETO MORTO|FETO|MORTO|NASCIDO VIVO|VIVO|NASCIDO|SEM DOC|CADAVER|NATIMORTE|RECEM|IGNORADO|RECEM NASCIDO DE )", ds_nome_pac), 
     1, 
     NA
