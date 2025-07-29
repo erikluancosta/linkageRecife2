@@ -15,10 +15,9 @@ sih <- read.csv2("1_base_bruta/dados/2023/TB_HAIH.CSV",
 sih <- sih |> 
   mutate(id_unico = paste0("SIH_", row_number(), "_", AH_NUM_AIH),
          banco = "SIH",
-         id_registro_linkage = -1, # será ajustada depois via script
          id_sih = row_number()
          ) |> 
-  select(id_sih, id_registro_linkage, id_unico, everything())
+  select(id_sih, id_unico, everything())
 
 
 

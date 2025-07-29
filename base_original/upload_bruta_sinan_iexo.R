@@ -17,7 +17,6 @@ sinan_iexo <- readxl::read_excel("1_base_bruta/dados/recife_novo_linkage_2024/si
 sinan_iexo <- sinan_iexo |> 
   mutate(
     id_unico = paste0("SINAN_IEXO_", row_number(), "_", NU_NOTIFIC),
-    id_registro_linkage = -1, # será ajustada depois via script
     banco = "SINAN_IEXO",
     id_sinan_iexo = row_number()
   ) |> 

@@ -46,9 +46,7 @@ a <- sinan_viol |> select(starts_with("DT"))
 sinan_viol <- sinan_viol |>
   mutate(
     id_unico = paste0("SINAN_VIOL_", row_number(), "_", NU_NOTIFIC),
-    #id_SINAN_VIOL = paste0("SINAN_VIOL_", row_number(), "_", NU_NOTIFIC),
     banco = "SINAN_VIOL",
-    # id_registro_linkage = -1, # Colocar na tratada
     id_sinan_viol = row_number()
   ) |> 
   select(id_sinan_viol, id_registro_linkage, id_unico, everything())

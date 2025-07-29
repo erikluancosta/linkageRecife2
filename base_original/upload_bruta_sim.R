@@ -29,10 +29,9 @@ sim <- bind_rows(sim_a, sim_b)
 sim <- sim |> mutate(
   id_unico = paste0("SIM_", row_number(), "_", NUMERODO),
   banco = "SIM",
-  #id_registro_linkage = -1, # REMOVER
   id_sim = row_number()
 ) |> 
-  select(id_sim, id_registro_linkage, id_unico, everything())
+  select(id_sim, id_unico, everything())
 
 
 # Lista de colunas a serem convertidas
